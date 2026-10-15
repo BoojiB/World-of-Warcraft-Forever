@@ -1,0 +1,29 @@
+## Interface: 16001
+## Title: SmartBuff |cffffffffForever|r
+## Version: 1.16001
+## Author: |cff20d2ffCodermik & Aeldra|r (EU-Proudmoore)
+## Contributing Author: |cff20d2ffMrWizard
+## Notes: Cast the most important buffs on you or party/raid members/pets. Use /sbm for options menu.
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## LoadSavedVariablesFirst: 1
+## SavedVariables: SMARTBUFF_OptionsGlobal, SmartBuffItemSpellCache, SmartBuffBuffRelationsCache, SmartBuffToyCache
+## SavedVariablesPerCharacter: SMARTBUFF_Options, SMARTBUFF_Buffs, SmartBuffBuffListCache, SmartBuffValidSpells
+## IconTexture: Interface\Addons\Smartbuff\Icons\IconEnabled.tga
+
+## Load order (do not reorder):
+## 1) Libs (Stub, CallbackHandler, SharedMedia)
+## 2) Globals.lua / Cache.lua
+## 3) SmartBuff.xml — Client.lua (Forever-only gate), Locales, Buffs, core modules, UI
+## 4) Broker (optional)
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
+Globals.lua
+Cache.lua
+SmartBuff.xml
+
+Libs\Broker_SmartBuff\Broker_SmartBuff.lua

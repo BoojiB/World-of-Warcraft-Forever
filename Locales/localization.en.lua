@@ -1,0 +1,315 @@
+-------------------------------------------------------------------------------
+-- English localization (Default)
+-------------------------------------------------------------------------------
+
+-- Whats new info
+SMARTBUFF_WHATSNEW = "\n\n|cffffffff         Whats new:|r\n\n"
+  .."          Changes in r1.121026 (Forever Alpha 5):\n\n"
+  .."             * Alpha test version for Forever Beta\n"
+  .."\n\n\n\n"
+;
+
+SMARTBUFF_CREDITS = "|cffffffff"
+  .."Forever & Classic by Codermik, MrWizard &\n"
+  .."Speedwaystar.  Please join and get support\n"
+  .."via my discord server:\n\n"
+  .."|cff00e0ffhttps://discord.gg/R6EkZ94TKK\n\n"
+  .."|cffffffffIf you want to help support me and the development of this addon then please always download from Curse or use one of the following links:\n\n"
+  .."|cffffffffYoutube: |cff00e0ffhttps://www.youtube/codermik\n"
+  .."|cffffffffPayPal.Me: |cff00e0ffhttps://paypal.me/codermik\n\n"
+;
+
+-- Weapon types
+SMARTBUFF_WEAPON_STANDARD = {"Daggers", "Axes", "Swords", "Maces", "Staves", "Fist Weapons", "Polearms", "Thrown", "Crossbows", "Bows", "Shields", "Guns"};
+SMARTBUFF_WEAPON_BLUNT = {"Maces", "Staves", "Fist Weapons"};
+SMARTBUFF_WEAPON_BLUNT_PATTERN = "Weightstone$";
+SMARTBUFF_WEAPON_SHARP = {"Daggers", "Axes", "Swords", "Polearms"};
+SMARTBUFF_WEAPON_SHARP_PATTERN = "Sharpening Stone$";
+
+-- Creature types
+SMARTBUFF_HUMANOID  = "Humanoid";
+SMARTBUFF_DEMON     = "Demon";
+SMARTBUFF_BEAST     = "Beast";
+SMARTBUFF_ELEMENTAL = "Elemental";
+SMARTBUFF_DEMONTYPE = "Imp";
+SMARTBUFF_UNDEAD    = "Undead";
+
+-- Classes (Forever / Classic Era)
+SMARTBUFF_CLASSES = {"Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior", "Hunter Pet", "Warlock Pet", "Tank", "Healer", "Damage Dealer"};
+
+-- Templates: generics + instances + custom. Assembled into SMARTBUFF_TEMPLATES at load (SmartBuff.lua).
+-- GENERICS: Enum.SmartBuffGroup (SmartBuff.lua) matches this order. Do not reorder or add/remove without updating both.
+SMARTBUFF_TEMPLATES_GENERICS = {"Solo", "Party", "LFG", "Raid", "Battleground", "Arena"};
+-- INSTANCES: Must match GetInstanceInfo() / GetRealZoneText() name exactly (localized).
+-- Classic Era raids + Forever raids (no TBC).
+SMARTBUFF_TEMPLATES_INSTANCES = {
+  "Molten Core",
+  "Onyxia’s Lair",
+  "Zul'Gurub",
+  "Blackwing Lair",
+  "Ruins of Ahn’Qiraj",
+  "Temple of Ahn’Qiraj",
+  "Naxxramas",
+  "The Barrow Deeps",
+  "Hyjal Summit",
+};
+SMARTBUFF_TEMPLATES_CUSTOM = {"Custom 1", "Custom 2", "Custom 3", "Custom 4", "Custom 5"};
+
+-- Mount
+SMARTBUFF_MOUNT = "Increases speed by (%d+)%%.";
+
+-- Abbreviations
+SMARTBUFF_ABBR_CHARGES_OL = "%d c";
+
+-- Bindings
+BINDING_NAME_SMARTBUFF_BIND_TRIGGER = "Trigger";
+BINDING_NAME_SMARTBUFF_BIND_TARGET  = "Target";
+BINDING_NAME_SMARTBUFF_BIND_OPTIONS = "Option menu";
+BINDING_NAME_SMARTBUFF_BIND_RESETBUFFTIMERS = "Reset buff timers";
+
+-- Options Frame Text
+
+-- experimental feature - for testing.
+SMARTBUFF_OFT_FIXBUFF        = "Fix Casting"
+SMARTBUFF_OFTT_FIXBUFF       = "Enabled by default. Makes SmartBuff's action button fire correctly for\nmouse clicks, macros and scroll-wheel without changing the global\nActionButtonUseKeyDown CVar (uses the button's useOnKeyDown attribute).\nCombat buffing may still be limited while this is active."
+
+SMARTBUFF_OFT                = "SmartBuff On/Off";
+SMARTBUFF_OFT_MENU           = "Show/hide options menu";
+SMARTBUFF_OFT_AUTO           = "Reminder";
+SMARTBUFF_OFT_AUTOTIMER      = "Check timer";
+SMARTBUFF_OFT_AUTOCOMBAT     = "in combat";
+SMARTBUFF_OFT_AUTOCHAT       = "Chat";
+SMARTBUFF_OFT_AUTOSPLASH     = "Splash";
+SMARTBUFF_OFT_AUTOSOUND      = "Sound";
+SMARTBUFF_OFT_SELECTSOUND    = "Select sound";
+SMARTBUFF_OFT_AUTOREST       = "Disable in cities";
+SMARTBUFF_OFT_HUNTERPETS     = "Buff Hunter pets";
+SMARTBUFF_OFT_WARLOCKPETS    = "Buff Warlock pets";
+SMARTBUFF_OFT_ARULES         = "Advance rules";
+SMARTBUFF_OFT_BUFFS          = "Buffs/Abilities";
+SMARTBUFF_OFT_TARGET         = "Buffs the selected target";
+SMARTBUFF_OFT_DONE           = "Close";
+SMARTBUFF_OFT_APPLY          = "Apply";
+SMARTBUFF_OFT_CLASSBUFFSIZE  = "Class size";
+SMARTBUFF_OFT_MESSAGES       = "Disable messages";
+SMARTBUFF_OFT_MSGNORMAL      = "normal";
+SMARTBUFF_OFT_MSGWARNING     = "warning";
+SMARTBUFF_OFT_MSGERROR       = "error";
+SMARTBUFF_OFT_HIDEMMBUTTON   = "Hide minimap button";
+SMARTBUFF_OFT_TALENTGROUP    = "Talent group %d / %d";
+SMARTBUFF_OFT_PALADINASSIGN  = "Auto show Paladin assignments";
+SMARTBUFF_PA_OPEN            = "Paladin";
+SMARTBUFF_PA_TITLE           = "Paladin Assignments";
+SMARTBUFF_PA_LOCK            = "Lock my assignments";
+SMARTBUFF_PA_NONE            = "None";
+SMARTBUFF_PA_AURA            = "Aura";
+SMARTBUFF_PA_NEEDGROUP      = "Paladin assignments are only available in a party or raid.";
+SMARTBUFF_PA_LOCKED          = "Assignments are locked.";
+SMARTBUFF_PA_VIEWONLY       = "You can view assignments, not change them.";
+SMARTBUFF_PA_ANNOUNCE_COMBAT = "Announce my blessing while in combat";
+SMARTBUFF_PA_ANNOUNCE_COMBAT_TT = "While in combat, tell you if your assigned aura, or the blessing assigned to you, is missing or about to expire.";
+SMARTBUFF_PA_HINT_WARRIOR    = "Warrior, a melee class who usually requires Might or Kings.";
+SMARTBUFF_PA_HINT_PALADIN    = "Paladin, depending on their specification they can benefit from any of your blessings.";
+SMARTBUFF_PA_HINT_HUNTER     = "Hunter, a melee class who usually requires Might or Kings.";
+SMARTBUFF_PA_HINT_ROGUE      = "Rogue, a melee class who usually requires Might or Kings.";
+SMARTBUFF_PA_HINT_PRIEST     = "Priest, priests benefit from either Wisdom or Kings.";
+SMARTBUFF_PA_HINT_SHAMAN     = "Shaman, depending on their specification they can benefit from any of your blessings.";
+SMARTBUFF_PA_HINT_MAGE       = "Mage, usually Kings or Wisdom.";
+SMARTBUFF_PA_HINT_WARLOCK    = "Warlock, usually Kings or Wisdom.";
+SMARTBUFF_PA_HINT_DRUID      = "Druid, depending on their specification they can benefit from any of your blessings.";
+SMARTBUFF_OFTT_PALADINASSIGN = "Opens the assignment frame when you are a paladin in a party or raid.";
+SMARTBUFF_OFT_INCLUDETOYS    = "Include toys";
+SMARTBUFF_OFT_REBUFFTIMER    = "Rebuff Timer";
+SMARTBUFF_OFT_AUTOSWITCHTMP  = "Switch template";
+SMARTBUFF_OFT_SELFFIRST      = "Self first";
+SMARTBUFF_OFT_SCROLLWHEELUP  = "Buff on scroll up";
+SMARTBUFF_OFT_SCROLLWHEELDOWN= "down";
+SMARTBUFF_OFT_SCROLLZOOMING  = "Zoom";
+SMARTBUFF_OFT_TARGETSWITCH   = "target change";
+SMARTBUFF_OFT_BUFFTARGET     = "Buff target";
+SMARTBUFF_OFT_BUFFPVP        = "Buff PvP";
+SMARTBUFF_OFT_AUTOSWITCHTMPINST = "Instances";
+SMARTBUFF_OFT_CHECKCHARGES   = "Check charges";
+SMARTBUFF_OFT_RBT            = "Reset Timers";
+SMARTBUFF_OFT_BUFFINCITIES   = "Buff in cities";
+SMARTBUFF_OFT_BLDURATION     = "Blocked";
+SMARTBUFF_OFT_ANTIDAZE       = "Anti daze";
+SMARTBUFF_OFT_HIDESABUTTON   = "Hide action button";
+SMARTBUFF_OFT_HIDEIFIDLE     = "Hide if idle";
+SMARTBUFF_OFT_RETAINTEMPLATE = "Retain";
+SMARTBUFF_OFT_INCOMBAT       = "in combat";
+SMARTBUFF_OFT_SMARTDEBUFF    = "SmartDebuff";
+SMARTBUFF_OFT_INSHAPESHIFT   = "Shapeshift";
+SMARTBUFF_OFT_LINKGRPBUFFCHECK  = "Grp link";
+SMARTBUFF_OFT_LINKSELFBUFFCHECK = "Self link";
+SMARTBUFF_OFT_RESETALL       = "Reset All";
+SMARTBUFF_OFT_RESETLIST      = "Reset List";
+SMARTBUFF_OFT_RESETBUFFS     = "Reset Buffs";
+SMARTBUFF_OFT_NEWS           = "Changes";
+SMARTBUFF_OFT_PURGE_BUFFS    = "New Version, reset ALL SmartBuff buff data?\nThis will reset all buff profiles!";
+SMARTBUFF_OFT_YES            = "Yes";
+SMARTBUFF_OFT_NO             = "No";
+SMARTBUFF_OFT_OKAY           = "Continue"
+SMARTBUFF_OFT_PURGE_DATA     = "New version, reset ALL SmartBuff data?\nThis action will force a reload of the UI!";
+SMARTBUFF_OFT_REQ_RELOAD     = "New versions require a reload of the GUI\nClick Continue when ready.";
+SMARTBUFF_OFT_SPLASHICON     = "Show Icon";
+SMARTBUFF_OFT_SPLASHMSGSHORT = "Short Message";
+SMARTBUFF_OFT_FONTSTYLE      = "Font";
+SMARTBUFF_OFT_FONTSIZE       = "Font Size";
+SMARTBUFF_OFT_ICONSIZE       = "Icon Size";
+
+
+-- Options Frame Tooltip Text
+SMARTBUFF_OFTT               = "Toggles SmartBuff On/Off";
+SMARTBUFF_OFTT_RBT           = "Reset BT: Clear buff timers only (runtime; no saved vars).";
+SMARTBUFF_OFTT_RESETALL      = "Reset All: Wipe everything (profiles + options). Requires ReloadUI.";
+SMARTBUFF_OFTT_RESETBUFFS    = "Reset Buffs: Resets buffs and profiles to defaults.";
+SMARTBUFF_OFTT_RESETLIST     = "Reset List: Reset buff order only.";
+SMARTBUFF_OFTT_DONE          = "Close options.";
+SMARTBUFF_OFTT_NEWS          = "View release notes and changelog.";
+SMARTBUFF_OFTT_HELPLATE_RESET = "Reset buttons (hover for details)";
+SMARTBUFF_OFTT_AUTO          = "Toggles the buff reminder On/Off";
+SMARTBUFF_OFTT_AUTOTIMER     = "Delay in seconds between two checks.";
+SMARTBUFF_OFTT_AUTOCOMBAT    = "Run the check also in combat.\nAll reminder logic is disabled in combat unless the main \"in combat\" option (in the options frame, not this one) is enabled.";
+SMARTBUFF_OFTT_AUTOCHAT      = "Displays missing buffs as chat message.";
+SMARTBUFF_OFTT_AUTOSPLASH    = "Displays missing buffs as splash message\nin the middle of the screen.";
+SMARTBUFF_OFTT_AUTOSOUND     = "Plays a sound if buffs are missing.";
+SMARTBUFF_OFTT_AUTOREST      = "Disable reminder in capital cities";
+SMARTBUFF_OFTT_HUNTERPETS    = "Buff the Hunter pets as well.";
+SMARTBUFF_OFTT_WARLOCKPETS   = "Buff the Warlock pets as well, except the " .. SMARTBUFF_DEMONTYPE .. ".";
+SMARTBUFF_OFTT_ARULES        = "Does not cast:\n- Thorns on Mages, Priests and Warlocks\n- Arcane Intellect on units without Mana\n- Divine Spirit on units without Mana";
+SMARTBUFF_OFTT_HIDEMMBUTTON  = "Hides the SmartBuff minimap button.";
+SMARTBUFF_OFTT_INCLUDETOYS   = "Include toys in the list alongside your spells and food.";
+SMARTBUFF_OFTT_REBUFFTIMER   = "How many seconds before a buff expires,\nthe reminder should alert you.\n0 = Deactivated";
+SMARTBUFF_OFTT_SELFFIRST     = "Buffs your character first of all others.";
+SMARTBUFF_OFTT_SCROLLWHEELUP = "Cast buffs when you roll your\nscrollwheel forward.";
+SMARTBUFF_OFTT_SCROLLWHEELDOWN = "Cast buffs when you roll your\nscrollwheel backward.";
+SMARTBUFF_OFTT_SCROLLZOOMING = "When enabled, always zoom the camera while scroll-buffing.\nWhen disabled (default), zoom only when there is nothing left to buff\n(scroll still buffs; empty scrolls zoom normally).";
+SMARTBUFF_OFTT_TARGETSWITCH  = "Cast buffs when you switch your target.";
+SMARTBUFF_OFTT_BUFFTARGET    = "Buffs first the current target,\nif it is friendly.";
+SMARTBUFF_OFTT_BUFFPVP       = "Buff PvP flagged players,\nalso if you are not PvP flagged.";
+SMARTBUFF_OFTT_AUTOSWITCHTMP = "Automatically switches the template by group/instance type:\nSolo, Party (also 5-man dungeons), Raid, Battleground, Arena.";
+SMARTBUFF_OFTT_AUTOSWITCHTMPINST = "Also switch to a named raid template when you\nenter that instance (must match GetInstanceInfo name).";
+SMARTBUFF_OFTT_CHECKCHARGES  = "Displays low amount of\ncharges on a buff.\n0 = Deactivated";
+SMARTBUFF_OFTT_BUFFINCITIES  = "Buffs also if you are in capital cities.\nIf you are PvP flagged, it buffs in any case.";
+SMARTBUFF_OFTT_BLDURATION    = "How many seconds, players will be blocked.\n0 = Deactivated";
+SMARTBUFF_OFTT_ANTIDAZE      = "Automatically cancels the\naspect of the cheetah/pack\nif someone gets dazed\n(self or group).";
+SMARTBUFF_OFTT_SPLASHSTYLE   = "Changes the fontstyle of\nthe buff messages.";
+SMARTBUFF_OFTT_HIDESABUTTON  = "Hides the SmartBuff action button.";
+SMARTBUFF_OFTT_HIDEIFIDLE    = "Hide the action button when nothing is queued; show it when a buff is pending.";
+SMARTBUFF_OFTT_RETAINTEMPLATE = "When switching to a fresh template (never used, or no buffs enabled),\nthe current buff settings will be copied to it when this is checked.\nBlank templates are never copied over, so you cannot accidentally overwrite a configured template.";
+SMARTBUFF_OFTT_INCOMBAT      = "Buffs flagged In-Combat (in per-buff options) are cast **ONCE** in as a best-effort\nsequence — when combat starts, and once again after combat resurrection if still fighting.\nNormal buff logic is disabled in combat!\nDo not add in-combat spells with cooldowns — they break the sequence.";
+SMARTBUFF_OFTT_SMARTDEBUFF   = "Shows the SmartDebuff frame.";
+SMARTBUFF_OFTT_SPLASHDURATION= "How many seconds the splash\nmessage will displayed,\nbefore it fades.";
+SMARTBUFF_OFTT_INSHAPESHIFT  = "Cast buffs also if you\nare shapeshifted.";
+SMARTBUFF_OFTT_LINKGRPBUFFCHECK  = "Checks if a buff of an other\nclass with similar effect\nis already active.";
+SMARTBUFF_OFTT_LINKSELFBUFFCHECK = "Checks if a self buff is active,\nwhose only one can be\nactive at a time.";
+SMARTBUFF_OFTT_SOUNDSELECT   = "Select the splash reminder sound.\nIncludes SmartBuff bundled sounds and any sounds\nregistered via LibSharedMedia (e.g. from other addons).";
+SMARTBUFF_OFTT_PLAYSOUND     = "Controlled by Sound Effects volume.";
+
+-- Buffsetup Frame Text
+SMARTBUFF_BST_SELFONLY       = "Myself only";
+SMARTBUFF_BST_SELFNOT        = "Myself not";
+SMARTBUFF_BST_COMBATIN       = "In combat";
+SMARTBUFF_BST_COMBATOUT      = "Out of combat";
+SMARTBUFF_BST_MAINHAND       = "Main Hand";
+SMARTBUFF_BST_OFFHAND        = "Off Hand";
+SMARTBUFF_BST_RANGED         = "Thrown";
+SMARTBUFF_BST_REMINDER       = "Notification";
+SMARTBUFF_BST_MANALIMIT      = "Lower bound";
+SMARTBUFF_BST_SKIPBGRES      = "Exclude in BGs";
+
+-- Buffsetup Frame Tooltip Text
+SMARTBUFF_BSTT_SELFONLY      = "Buffs only your character.";
+SMARTBUFF_BSTT_SELFNOT       = "Buffs all other selected classes,\nexcept your character.";
+SMARTBUFF_BSTT_SINGLETARGET  = "For single-target buffs (Earth Shield, Soulstone, etc.), prefer role filter (e.g. TANK) over class.";
+SMARTBUFF_BSTT_COMBATIN      = "Include this buff in the in-combat sequence (only if the main in-combat option is on).\nAvoid spells with cooldowns — they break the sequence.";
+SMARTBUFF_BSTT_COMBATOUT     = "Buffs if you are out of combat.";
+SMARTBUFF_BSTT_MAINHAND      = "Buffs the Main Hand.";
+SMARTBUFF_BSTT_OFFHAND       = "Buffs the Off Hand.";
+SMARTBUFF_BSTT_RANGED        = "Buffs the ranged slot.";
+SMARTBUFF_BSTT_REMINDER      = "Display reminder message.";
+SMARTBUFF_BSTT_REBUFFTIMER   = "How many seconds before a buff expires,\nthe reminder should alert you.\n0 = global rebuff timer";
+SMARTBUFF_BSTT_MANALIMIT     = "Mana/Rage/Energy threshold\nIf you are below this value\nit will not cast the buff.";
+SMARTBUFF_BSTT_SKIPBGRES    = "If checked, this spell is not added to the cast queue after resurrection in Battleground or Arena.";
+SMARTBUFF_BSTT_ADDLIST       = "Additional list: Add players who should receive this buff even if they don't match the class/role filter. Target a party/raid member and click + to add.";
+SMARTBUFF_BSTT_IGNORELIST    = "Ignore list: Exclude players from this buff even if they match the class/role filter. Target a party/raid member and click + to add.";
+
+-- Playersetup Frame Tooltip Text
+SMARTBUFF_PSTT_RESIZE        = "Minimize/maximize\nthe main options frame";
+SMARTBUFF_PSTT_ADD           = "Add your current target to this list. Target must be in your party or raid.";
+SMARTBUFF_PSTT_REMOVE        = "Remove the selected player from this list.";
+SMARTBUFF_PSTT_UP            = "Move selection up in the list.";
+SMARTBUFF_PSTT_DOWN          = "Move selection down in the list.";
+SMARTBUFF_PSTT_CLEAR         = "Clear all entries from this list.";
+
+-- Group Buff Help (INFO button)
+SMARTBUFF_GROUPBUFFHELP_TT   = "Open group buff configuration help";
+SMARTBUFF_GROUPBUFFHELP      = "|cffffffffGroup Buff Configuration|r\n\n"
+  .."|cffffffffRole vs Class|r\n"
+  .."Class is what someone is (Warrior, Mage, Priest, etc.). Role is what they do (Tank, Healer, Damage).\n\n"
+  .."|cffffffffSingle-target buffs|r\n"
+  .."Some buffs (Earth Shield, Soulstone, etc.) can only be on one person at a time. SmartBuff marks these as single-target.\n\n"
+  .."The buff will not jump or move as long as any eligible group member already has your buff. Once someone eligible has it, SmartBuff leaves it alone until it expires or they leave. Prefer role (e.g. Tank) over class for these buffs.\n\n"
+  .."|cffffffffAdditional and Ignore lists|r\n"
+  .."These lists override class/role. Target a party or raid member and click + to add. Select an entry and click - to remove. Click c to clear the list.\n\n"
+  .."Additional list: Buff these players (or NPCs) even if they don't match your class/role checkboxes.\n"
+  .."Ignore list: Don't buff these players even if they do match. The lists take priority over the checkboxes.\n\n"
+  .."|cffffffffYou must select something|r\n"
+  .."At least one class or role checkbox must be checked. Otherwise the buff won't go to anyone (unless they're on the Additional list).\n\n"
+  .."|cffffffffRoles only matter in groups|r\n"
+  .."Tank, Healer, and Damage filters only apply when you're in a party or raid. When solo, they have no effect.";
+
+-- Messages
+SMARTBUFF_MSG_LOADED         = "loaded. Please report any problems on Curse or join discord at discord.gg/R6EkZ94TKK.";
+SMARTBUFF_NOTINTENDEDCLIENT  = "This Forever build of SmartBuff is not intended for this client. Please use the matching Classic Era / Retail package.";
+SMARTBUFF_MSG_NEWVER1        = "|cff00e0ffSmartbuff : |cffffffff There is a new version available, you are using |cffFFFF00";
+SMARTBUFF_MSG_NEWVER2        = "|cffffffff and revision |cffFFFF00r"
+SMARTBUFF_MSG_NEWVER3        = "|cffffffff is currently available for download.  Join Discord for all the latest information at https://discord.gg/R6EkZ94TKK.";
+SMARTBUFF_MSG_DISABLED       = "SmartBuff is disabled!";
+SMARTBUFF_MSG_SUBGROUP       = "You've joined a new subgroup, please check the options!";
+SMARTBUFF_MSG_NOTHINGTODO    = "Nothing to do";
+SMARTBUFF_MSG_BUFFED         = "buffed";
+SMARTBUFF_MSG_OOR            = "is out of range to buff!";
+--SMARTBUFF_MSG_CD             = "has cooldown!";
+SMARTBUFF_MSG_CD             = "Global cooldown!";
+SMARTBUFF_MSG_CHAT           = "not possible in chat mode!";
+SMARTBUFF_MSG_SHAPESHIFT     = "Casting is not allowed in shapeshift form!";
+SMARTBUFF_MSG_NOACTIONSLOT   = "needs a slot in an actionbar to working properly!";
+SMARTBUFF_MSG_GROUP          = "Group";
+SMARTBUFF_MSG_NEEDS          = "needs";
+SMARTBUFF_MSG_OOM            = "Not enough mana/rage/energy!";
+SMARTBUFF_MSG_STOCK          = "Actual stock of";
+SMARTBUFF_MSG_NOREAGENT      = "Out of reagent:";
+SMARTBUFF_MSG_BAGSFULL       = "SmartBuff detected you needed %s but bags are full.";
+SMARTBUFF_MSG_DEACTIVATED    = "deactivated!";
+SMARTBUFF_MSG_REBUFF         = "Rebuff";
+SMARTBUFF_MSG_LEFT           = "left";
+SMARTBUFF_MSG_CLASS          = "Class";
+SMARTBUFF_MSG_CHARGES        = "charges";
+SMARTBUFF_MSG_SOUNDS         = "Splash Sound Selection: "
+SMARTBUFF_MSG_SPECCHANGED    = "Spec changed (%s), loading buff templates...";
+SMARTBUFF_MSG_PVP_PREP_ONLY  = "Due to API limitation, buffing only works during prep and is disabled once the match starts.";
+-- After next castsequence spell: "Player needs <spell> (in-combat)" — aligns with in-combat option wording. "" = OOC-style only.
+SMARTBUFF_MSG_CASTSEQUENCE_SUFFIX = " (in-combat)";
+
+-- Support
+SMARTBUFF_MINIMAP_TT         = "Left click: options menu\nRight click: On/Off\nShift-Left click: Paladin assignments\nAlt-Left Click: SmartDebuff\nDrag: Move button";
+SMARTBUFF_TITAN_TT           = "Left Click: Open options\nRight Click: On/Off\nAlt-Left Click: SmartDebuff";
+SMARTBUFF_FUBAR_TT           = "\nLeft Click: Open options\nShift-Left Click: On/Off\nAlt-Left Click: SmartDebuff";
+
+SMARTBUFF_DEBUFF_TT          = "Shift-Left drag: Move frame\n|cff20d2ff- S button -|r\nLeft click: Show by classes\nShift-Left click: Class colors\nAlt-Left click: Highlight L/R\n|cff20d2ff- P button -|r\nLeft click: Hide pets on/off";
+
+-- Code table
+-- à : \195\160    è : \195\168    ì : \195\172    ò : \195\178    ù : \195\185
+-- á : \195\161    é : \195\169    í : \195\173    ó : \195\179    ú : \195\186
+-- â : \195\162    ê : \195\170    î : \195\174    ô : \195\180    û : \195\187
+-- ã : \195\163    ë : \195\171    ï : \195\175    õ : \195\181    ü : \195\188
+-- ä : \195\164                    ñ : \195\177    ö : \195\182
+-- æ : \195\166                                    ø : \195\184
+-- ç : \195\167                                     : \197\147
+--
+-- Ä : \195\132
+-- Ö : \195\150
+-- Ü : \195\156
+-- ß : \195\159
