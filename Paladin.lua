@@ -912,6 +912,9 @@ end
 
 function SMARTBUFF_PaladinAssign_RemindSelf()
   if (not (SG.O and SG.O.PaladinAssignCombatAnnounce and isPaladin())) then return; end
+  -- Forever hides helpful aura results in combat: allowed lookups return nil
+  -- for active auras, so scanning here would announce false missing buffs.
+  if (SG.isWoWProjectForever and (InCombatLockdown() or UnitAffectingCombat("player"))) then return; end
   if (not SMARTBUFF_BuffUnit) then return; end
   SG.paladinSelfRemind = true;
   pcall(SMARTBUFF_BuffUnit, "player", 1, 1);
@@ -942,7 +945,9 @@ function SMARTBUFF_PaladinAssign_Refresh()
     rows[i]:Hide();
   end
   local cb = ensureCombatAnnounce();
-  local showCb = isPaladin();
+  -- Forever cannot reliably determine whether assigned blessings or auras are
+  -- missing in combat, so do not offer a reminder that produces false alerts.
+  local showCb = isPaladin() and not SG.isWoWProjectForever;
   cb:SetShown(showCb);
   local extra = 0;
   if (showCb) then

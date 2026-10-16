@@ -478,14 +478,18 @@ function SMARTBUFF_Check(mode, force)
   -- Retail fact: (1) PvP match active â€” buffs secret to addons whether OOC or IC. (2) Outside PvP â€” secret in combat,
   -- visible OOC. skipChecks during match skips aura-based scan; BGRes + castsequence paths do not rely on match auras.
   -- Skip when: (in combat and SG.O.InCombat disabled) OR (in PvP and match active). Allow PvP prep when SG.O.InCombat.
+  -- Forever addition: also skip in combat because helpful aura lookups return nil for player/group units.
   local _, instanceType = GetInstanceInfo();
   local inPvPInstance = (instanceType == "arena" or instanceType == "pvp");
   local pvPMatchState = inPvPInstance and (C_PvP.GetActiveMatchState() or 0) or 0;
   local pvPMatchActive = (pvPMatchState >= 3);
-  local skipChecks = (InCombatLockdown() and not SG.O.InCombat) or (inPvPInstance and pvPMatchActive);
+  local inCombat = InCombatLockdown() or UnitAffectingCombat("player");
+  local skipChecks = (SG.isWoWProjectForever and inCombat)
+    or (InCombatLockdown() and not SG.O.InCombat)
+    or (inPvPInstance and pvPMatchActive);
   -- SG.O.InCombat: skip BuffUnit for "player" when non-PvP instance (always) or PvP with castsequence macro on key.
   -- Reminders: SMARTBUFF_NotifyInCombatCastsequenceReminders. Active match: skipChecks; BGRes returns before skipChecks.
-  local skipPlayerBuffUnitForInCombatCastsequence = SG.O.InCombat and (InCombatLockdown() or UnitAffectingCombat("player"))
+  local skipPlayerBuffUnitForInCombatCastsequence = SG.O.InCombat and inCombat
     and ((not inPvPInstance) or SG.inCombatCastsequenceActive);
   -- In combat + castsequence: mode-1 splash/icon (BuffUnit not run for player).
   if (mode == 1 and skipPlayerBuffUnitForInCombatCastsequence) then
