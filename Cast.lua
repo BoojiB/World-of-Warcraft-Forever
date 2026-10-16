@@ -530,20 +530,16 @@ end
 -- Secure button functions, NEW TBC ---------------------------------------------------------------------------------------
 
 -- Apply Fix Casting via the KeyButton's useOnKeyDown attribute (never touches the global CVar).
--- When enabled: false = fire on mouse-up (clicks/macros), true = fire on key-down (scroll).
--- When disabled: clear the attribute so the button follows ActionButtonUseKeyDown.
+-- Mouse-wheel overrides need an explicit key-down action. Ordinary trigger keys,
+-- mouse clicks, and /click macros must follow WoW's normal input transition;
+-- forcing them to key-up makes keyboard overrides scan without casting.
 function SMARTBUFF_ApplyKeyButtonUseOnKeyDown(forceDown)
   if (InCombatLockdown() or not SmartBuff_KeyButton) then return; end
-  if (not SG.O or not SG.O.SBButtonFix) then
+  if (not SG.O or not SG.O.SBButtonFix or not forceDown) then
     SmartBuff_KeyButton:SetAttribute("useOnKeyDown", nil);
     return;
   end
-  if (forceDown == nil) then
-    -- Resting state while Fix Casting is on: mouse-up (click/macro friendly)
-    SmartBuff_KeyButton:SetAttribute("useOnKeyDown", false);
-  else
-    SmartBuff_KeyButton:SetAttribute("useOnKeyDown", forceDown and true or false);
-  end
+  SmartBuff_KeyButton:SetAttribute("useOnKeyDown", true);
 end
 
 
@@ -637,7 +633,7 @@ function SMARTBUFF_OnPreClick(self, button, down)
     self:SetAttribute("action", nil);
   end
 
-  -- Fix Casting: per-button useOnKeyDown (clicks/macros on up, scroll on down). No global CVar.
+  -- Fix Casting: ordinary clicks follow WoW's setting; scroll fires on key-down. No global CVar change.
   if (SG.O.SBButtonFix and not InCombatLockdown()) then
     local isClick = (button == "LeftButton" or button == "RightButton");
     SMARTBUFF_ApplyKeyButtonUseOnKeyDown(not isClick);
