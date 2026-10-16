@@ -20,6 +20,10 @@ SMARTBUFF_VERSIONNR          = 1;
 
 local SG = SMARTBUFF_GLOBALS;
 
+-- Buff definitions store the caster's training level for each spell rank, but
+-- friendly targets can receive beneficial ranks up to 10 levels earlier.
+local BUFF_TARGET_LEVEL_ALLOWANCE = 10;
+
 -- Classic Forever: dual talent groups (retail GetSpecialization is unavailable)
 function SMARTBUFF_GetActiveTalentGroup()
   local fn = _G.GetActiveTalentGroup or _G.GetSpecialization;
@@ -1939,11 +1943,12 @@ function SMARTBUFF_PickSpellRank(cBuff, unit)
   if (not uLevel or uLevel < 0) then
     return ranks[#ranks].spellID;
   end
+  local effectiveLevel = uLevel + BUFF_TARGET_LEVEL_ALLOWANCE;
   local bestID, bestRank = nil, 0;
   for _, entry in ipairs(ranks) do
     local idx = entry.rank;
     local minLevel = idx and levels[idx];
-    if (minLevel and uLevel >= minLevel and idx >= bestRank) then
+    if (minLevel and effectiveLevel >= minLevel and idx >= bestRank) then
       bestRank = idx;
       bestID = entry.spellID;
     end
