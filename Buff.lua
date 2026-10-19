@@ -980,7 +980,7 @@ function SMARTBUFF_BuffUnit(unit, subgroup, mode, spell)
                     bExpire = razorBExpire;
                   end
                 else
-                  local hasMh, expMh, chMh, hasOh, expOh, chOh = SMARTBUFF_ReadWeaponEnchantInfo();
+                  local hasMh, expMh, chMh, hasOh, expOh, chOh, enchantsMh, enchantsOh = SMARTBUFF_ReadWeaponEnchantInfo();
                   -- MH first, then OH: if both need the buff, do not let OH overwrite a missing MH.
                   local skipOffHandWeaponCheck = false;
                   local matchName = (cBuff.Type == SMARTBUFF_CONST_WEAPON);
@@ -989,7 +989,7 @@ function SMARTBUFF_BuffUnit(unit, subgroup, mode, spell)
                     iSlot = INVSLOT_MAINHAND;
                     iId = GetInventoryItemID("player", iSlot);
                     if (iId and SMARTBUFF_CanApplyWeaponBuff(buffnS, iSlot)) then
-                      local missing, expiring, secs, nCharges = SMARTBUFF_EvaluateWeaponHand(hasMh, expMh, chMh, iSlot, buffnS, rbTime, cBuff.DurationS, matchName);
+                      local missing, expiring, secs, nCharges = SMARTBUFF_EvaluateWeaponHand(hasMh, expMh, chMh, iSlot, buffnS, rbTime, cBuff.DurationS, matchName, enchantsMh);
                       if (nCharges > 1) then cBuff.CanCharge = true; end
                       charges = nCharges;
                       SMARTBUFF_AddMsgD(un .. " (WMH): " .. buffnS .. " missing=" .. tostring(missing) .. " expiring=" .. tostring(expiring) .. " secs=" .. tostring(secs));
@@ -1012,7 +1012,7 @@ function SMARTBUFF_BuffUnit(unit, subgroup, mode, spell)
                     iSlot = INVSLOT_OFFHAND;
                     iId = GetInventoryItemID("player", iSlot);
                     if (iId and SMARTBUFF_CanApplyWeaponBuff(buffnS, iSlot)) then
-                      local missing, expiring, secs, nCharges = SMARTBUFF_EvaluateWeaponHand(hasOh, expOh, chOh, iSlot, buffnS, rbTime, cBuff.DurationS, matchName);
+                      local missing, expiring, secs, nCharges = SMARTBUFF_EvaluateWeaponHand(hasOh, expOh, chOh, iSlot, buffnS, rbTime, cBuff.DurationS, matchName, enchantsOh);
                       if (nCharges > 1) then cBuff.CanCharge = true; end
                       charges = nCharges;
                       SMARTBUFF_AddMsgD(un .. " (WOH): " .. buffnS .. " missing=" .. tostring(missing) .. " expiring=" .. tostring(expiring) .. " secs=" .. tostring(secs));
@@ -1560,8 +1560,8 @@ function SMARTBUFF_CheckRazorstoneBuff(unit, checkMH, checkOH, durationS, rbTime
   return slotToApply, handtype, bt, bExpire;
 end
 
--- GetWeaponEnchantInfo, or C_Item.GetWeaponEnchantInfo when the global is absent.
--- Returns hasMH, expirationMH, chargesMH, hasOH, expirationOH, chargesOH.
+-- Read per-slot weapon enchants on Forever, with the legacy aggregate API as fallback.
+-- Returns the legacy six values followed by active-enchant lists for MH and OH when available.
 function SMARTBUFF_ReadWeaponEnchantInfo()
   local function unpackEnchant(a, b, c, d, e, f, g, h)
     if (type(a) == "table") then
@@ -1571,9 +1571,31 @@ function SMARTBUFF_ReadWeaponEnchantInfo()
     return a, b, c, e, f, g;
   end
   if (C_Item and C_Item.GetWeaponEnchantInfo) then
-    local ok, a, b, c, d, e, f, g, h = pcall(C_Item.GetWeaponEnchantInfo);
-    if (ok and a ~= nil) then
-      return unpackEnchant(a, b, c, d, e, f, g, h);
+    -- Forever exposes weapon enchants per slot. Rogue poisons are Imbue entries
+    -- here, but the legacy aggregate GetWeaponEnchantInfo can report them missing.
+    local function readSlot(slot)
+      local ok, enchants = pcall(C_Item.GetWeaponEnchantInfo, slot);
+      if (not ok or type(enchants) ~= "table") then return nil, nil, nil, false, nil; end
+      local temporary = (Enum and Enum.ItemEnchantType and Enum.ItemEnchantType.Temporary) or 2;
+      local imbue = (Enum and Enum.ItemEnchantType and Enum.ItemEnchantType.Imbue) or 3;
+      local active = {};
+      for _, info in ipairs(enchants) do
+        -- Permanent enchants must not satisfy a requested temporary weapon buff.
+        if (type(info) == "table" and (info.enchantType == temporary or info.enchantType == imbue)
+            and knownBool(info.hasEnchant) == true) then
+          tinsert(active, info);
+        end
+      end
+      local first = active[1];
+      return first ~= nil, first and first.timeLeft, first and first.charges, true, active;
+    end
+
+    local mainSlot = (Enum and Enum.WeaponSlot and Enum.WeaponSlot.MainHand) or 0;
+    local offSlot = (Enum and Enum.WeaponSlot and Enum.WeaponSlot.OffHand) or 1;
+    local hasMh, expMh, chMh, mhKnown, enchantsMh = readSlot(mainSlot);
+    local hasOh, expOh, chOh, ohKnown, enchantsOh = readSlot(offSlot);
+    if (mhKnown and ohKnown) then
+      return hasMh, expMh, chMh, hasOh, expOh, chOh, enchantsMh, enchantsOh;
     end
   end
   if (GetWeaponEnchantInfo) then
@@ -1647,11 +1669,28 @@ end
 
 -- missing, expiring, secondsLeft, charges.
 -- A present enchant with 0 or unreadable time is still applied. Rockbiter often reports 0 ms.
-function SMARTBUFF_EvaluateWeaponHand(hasFlag, expiration, rawCharges, slot, spellName, rbTime, durationS, matchName)
+function SMARTBUFF_EvaluateWeaponHand(hasFlag, expiration, rawCharges, slot, spellName, rbTime, durationS, matchName, enchants)
   local has = knownBool(hasFlag);
   local secs = SMARTBUFF_WeaponEnchantSeconds(expiration);
   local charges = SMARTBUFF_WeaponEnchantCharges(rawCharges);
   local present = (has == true);
+
+  -- Forever can keep a Temporary effect (such as a sharpening stone) and an Imbue
+  -- (such as poison) on the same hand. Match inventory buffs by enchant icon so each
+  -- layer is checked independently without an item-ID-to-enchant-ID table.
+  local itemID = extractItemID(spellName);
+  local itemIcon = itemID and C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(itemID);
+  if (itemIcon and type(enchants) == "table") then
+    present = false;
+    for _, info in ipairs(enchants) do
+      if (type(info) == "table" and info.enchantIconID == itemIcon) then
+        present = true;
+        secs = SMARTBUFF_WeaponEnchantSeconds(info.timeLeft);
+        charges = SMARTBUFF_WeaponEnchantCharges(info.charges);
+        break;
+      end
+    end
+  end
 
   if (not present and matchName) then
     local auraOn, auraSecs = SMARTBUFF_PlayerImbueAuraSeconds(spellName);
