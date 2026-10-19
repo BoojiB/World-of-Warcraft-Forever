@@ -1388,11 +1388,11 @@ local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 = ...;
       SMARTBUFF_ReloadSpells();
     end
   elseif (event == "ITEM_DATA_LOAD_RESULT" or event == "SPELL_DATA_LOAD_RESULT") then
-    -- Item/Spell data finished loading (or failed) - validate, update cache, and rebuild buff list only when we actually updated
+    -- Item/Spell data finished loading (or failed); successful loads refresh cached data and unresolved item rows.
     local dataID, success = ...;
     if (success and SG.isInit and SG.O and SG.O.Toggle) then
       local cache = SmartBuffItemSpellCache;
-      local didUpdate = false;  -- Only trigger full rebuild when we actually wrote to cache (avoids rebuild spam)
+      local didUpdate = false;  -- Tracks cache writes; successful item loads can also resolve uncached item:ID rows.
       if (cache and cache.needsRefresh) then
         if (event == "ITEM_DATA_LOAD_RESULT") then
           local varName = SMARTBUFF_ExpectedData.itemIDToVarName and SMARTBUFF_ExpectedData.itemIDToVarName[dataID];
@@ -1447,8 +1447,9 @@ local arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 = ...;
           end
         end
       end
-      -- Schedule one full rebuild when we actually updated cache (coalesced via ScheduleSetBuffs)
-      if (didUpdate) then
+      -- Canonical item:ID rows remain valid while data loads; rebuild after any
+      -- successful item load so newly available name, level, and texture data is used.
+      if (didUpdate or event == "ITEM_DATA_LOAD_RESULT") then
         SMARTBUFF_ScheduleSetBuffs();
       end
       -- Any successful load can resolve names for rows keyed by item:ID / numeric id (not in ExpectedData)

@@ -60,7 +60,13 @@ do
         local a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q = _GetItemInfo(item);
         if (a or b) then return a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q; end
       end
-      return C_Item.GetItemInfo(item);
+      local a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q = C_Item.GetItemInfo(item);
+      if (a or b or type(item) ~= "number") then
+        return a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q;
+      end
+      -- Preserve an unresolved numeric item as a canonical reference. Static
+      -- buff tables can then be built before the client item cache is ready.
+      return nil, "item:" .. tostring(item);
     end
   end
 end
